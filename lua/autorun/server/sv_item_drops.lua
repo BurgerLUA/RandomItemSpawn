@@ -1,14 +1,88 @@
 
+local Items = {}
+local Weapons = {}
+
+
+function LoadWeapons()
+
+	if not AlreadyLoaded then
+
+		local WeaponTable = weapons.GetList()
+		local EntityTable = scripted_ents.GetList( )
+
+
+		for k,v in pairs(WeaponTable) do
+
+			if v.Base == "weapon_cs_base" and v.Category == "Counter-Strike" then
+			
+				table.Add(Items,{WeaponTable[k].ClassName})
+				
+				if v.WeaponType	~= "Free" then
+					table.Add(Weapons,{WeaponTable[k].ClassName})
+				end
+				
+			end
+			
+		end
+		
+		AlreadyLoaded = true
+		
+		WeaponsCount = table.Count(Weapons)
+		
+	end
+	
+end
+
+hook.Add("PlayerInitialSpawn", "Load Weapons", LoadWeapons)
+
+function BotsWithGuns(ply)
+	
+	--if 1 == 1 then return end
+	if CLIENT then return end
+	
+	if ply:IsBot() then
+		ply:StripWeapons()
+		
+		timer.Simple(0, function()
+			ply:StripWeapons()
+			ply:Give(Weapons[math.random(1,WeaponsCount)])
+			
+			--ply:SetModel("models/player/woody/woody.mdl")
+	
+			local ent = ply
+
+			local FlexNum = ent:GetFlexNum() - 1
+			if ( FlexNum <= 0 ) then return end
+			
+			
+			for i=0, FlexNum - 1 do
+	
+				local Name = ent:GetFlexName( i )
+	
+
+				
+				ent:SetFlexWeight( i, math.Rand(-0.75,0.75) )
+				ent:SetFlexScale( 5 )
+				
+			end
+		end)
+		
+	end
+	
+
+end
+
+hook.Add("PlayerSpawn", "Bots with Guns", BotsWithGuns)
+
+
+
+
+
+
 
 if game.GetMap( ) ~= "gm_abstract" then return end
 
-
-
-
 local DropRate = 10
-
-
-
 
 local Locations = {}
 Locations[1] = Vector(1024, 0 , 0)
@@ -20,18 +94,6 @@ Locations[5] = Vector(0, 0, 256)
 -- don't touch anything below
 local nextplacetime = DropRate
 local LocationsCount = table.Count(Locations)
-
-local Items = {}
-
-local WeaponTable = weapons.GetList()
-local EntityTable = scripted_ents.GetList( )
-
-for k,v in pairs(WeaponTable) do
-	if v.Base == "weapon_cs_base" and v.Category == "Counter-Strike" then
-		table.Add(Items,{WeaponTable[k].ClassName})
-		table.Add(Items,{WeaponTable[k].ClassName})
-	end
-end
 
 --[[
 for a,b in pairs(EntityTable) do

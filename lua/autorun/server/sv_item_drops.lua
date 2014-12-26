@@ -16,6 +16,8 @@ function LoadWeapons()
 			if v.Base == "weapon_cs_base" and v.Category == "Counter-Strike" then
 			
 				table.Add(Items,{WeaponTable[k].ClassName})
+				table.Add(Items,{WeaponTable[k].ClassName})
+				table.Add(Items,{WeaponTable[k].ClassName})
 				
 				if v.WeaponType	~= "Free" then
 					table.Add(Weapons,{WeaponTable[k].ClassName})
@@ -40,6 +42,11 @@ function BotsWithGuns(ply)
 	--if 1 == 1 then return end
 	if CLIENT then return end
 	
+	local PlayerList = {"models/player/group01/female_03.mdl","models/player/group01/female_05.mdl","models/player/group01/male_01.mdl","models/player/group01/male_03.mdl","models/player/group03/male_01.mdl","models/player/group03/male_03.mdl"}
+	
+	
+	
+	
 	if ply:IsBot() then
 		ply:StripWeapons()
 		
@@ -47,7 +54,7 @@ function BotsWithGuns(ply)
 			ply:StripWeapons()
 			ply:Give(Weapons[math.random(1,WeaponsCount)])
 			
-			--ply:SetModel("models/player/woody/woody.mdl")
+			ply:SetModel(PlayerList[math.random(1,table.Count(PlayerList))])
 	
 			local ent = ply
 
@@ -55,6 +62,43 @@ function BotsWithGuns(ply)
 			if ( FlexNum <= 0 ) then return end
 			
 			
+			
+			ent:SetFlexWeight( 10, 0 )
+			ent:SetFlexWeight( 11, 0 )
+			ent:SetFlexWeight( 12, 1 )
+			ent:SetFlexWeight( 13, 1 )
+			ent:SetFlexWeight( 14, 0.5 )
+			ent:SetFlexWeight( 15, 0.5 )
+			ent:SetFlexWeight(20 , 1)
+			ent:SetFlexWeight(21 , 1)
+			ent:SetFlexWeight(22 , 1)
+			ent:SetFlexWeight(23 , 1)
+			ent:SetFlexWeight(24 , 0)
+			ent:SetFlexWeight(25 , 0)
+			ent:SetFlexWeight(26 , 0)
+			ent:SetFlexWeight(27 , 0.6)
+			ent:SetFlexWeight(28 , 0.4)
+			ent:SetFlexWeight(29 , 0)
+			ent:SetFlexWeight(30 , 0)
+			ent:SetFlexWeight(31 , 0)
+			ent:SetFlexWeight(32 , 0)
+			ent:SetFlexWeight(33 , 1)
+			ent:SetFlexWeight(34 , 1)
+			ent:SetFlexWeight(35 , 0)
+			ent:SetFlexWeight(36 , 0)
+			ent:SetFlexWeight(37 , 0)
+			ent:SetFlexWeight(38 , 0)
+			ent:SetFlexWeight(39 , 0)
+			ent:SetFlexWeight(40 , 1)
+			ent:SetFlexWeight(41 , 1)
+			ent:SetFlexWeight(42 , 0)
+			ent:SetFlexWeight(43 , 0)
+			ent:SetFlexWeight(44 , 0)
+			ent:SetFlexScale( 5 )
+			
+			
+			
+			--[[
 			for i=0, FlexNum - 1 do
 	
 				local Name = ent:GetFlexName( i )
@@ -62,9 +106,11 @@ function BotsWithGuns(ply)
 
 				
 				ent:SetFlexWeight( i, math.Rand(-0.75,0.75) )
-				ent:SetFlexScale( 5 )
+				
 				
 			end
+			--]]
+			
 		end)
 		
 	end
@@ -75,6 +121,16 @@ end
 hook.Add("PlayerSpawn", "Bots with Guns", BotsWithGuns)
 
 
+print ("wtf")
+function SwimTest(ply, vel)
+
+	print(vel)
+	
+	--return false
+	
+end
+
+hook.Add("PostPlayerThink", "Drowning Experimental" , SwimTest )
 
 
 
@@ -184,5 +240,8 @@ function ItemPlacer()
 
 end
 
-
 hook.Add("Think","Item Placer Script", ItemPlacer)
+
+
+
+

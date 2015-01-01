@@ -52,7 +52,7 @@ function BotsWithGuns(ply)
 		
 		timer.Simple(0, function()
 			ply:StripWeapons()
-			ply:Give(Weapons[math.random(1,WeaponsCount)])
+			ply:Give("weapon_cs_sun")
 			
 			ply:SetModel(PlayerList[math.random(1,table.Count(PlayerList))])
 	

@@ -3,6 +3,7 @@ local Items = {}
 local Weapons = {}
 
 
+
 function LoadWeapons()
 
 	if not AlreadyLoaded then
@@ -52,7 +53,8 @@ function BotsWithGuns(ply)
 		
 		timer.Simple(0, function()
 			ply:StripWeapons()
-			ply:Give("weapon_cs_sun")
+			
+			ply:Give(Weapons[ math.random(1,WeaponsCount) ] )
 			
 			ply:SetModel(PlayerList[math.random(1,table.Count(PlayerList))])
 	
@@ -113,27 +115,16 @@ function BotsWithGuns(ply)
 			
 		end)
 		
+	else
+	
+		--ply:Give("weapon_cs_usp")
+		
 	end
 	
 
 end
 
 hook.Add("PlayerSpawn", "Bots with Guns", BotsWithGuns)
-
-
-print ("wtf")
-function SwimTest(ply, vel)
-
-	print(vel)
-	
-	--return false
-	
-end
-
-hook.Add("PostPlayerThink", "Drowning Experimental" , SwimTest )
-
-
-
 
 
 if game.GetMap( ) ~= "gm_abstract" then return end

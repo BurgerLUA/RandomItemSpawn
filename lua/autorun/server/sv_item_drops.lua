@@ -2,7 +2,7 @@
 local Items = {}
 local Weapons = {}
 
-
+local AlreadyLoaded = false
 
 function LoadWeapons()
 
@@ -15,10 +15,7 @@ function LoadWeapons()
 		for k,v in pairs(WeaponTable) do
 
 			if v.Base == "weapon_cs_base" and v.Category == "Counter-Strike" then
-			
-				table.Add(Items,{WeaponTable[k].ClassName})
-				table.Add(Items,{WeaponTable[k].ClassName})
-				table.Add(Items,{WeaponTable[k].ClassName})
+	
 				
 				if v.WeaponType	~= "Free" then
 					table.Add(Weapons,{WeaponTable[k].ClassName})
@@ -36,7 +33,7 @@ function LoadWeapons()
 	
 end
 
-hook.Add("PlayerInitialSpawn", "Load Weapons", LoadWeapons)
+hook.Add("Think", "Load Weapons", LoadWeapons)
 
 function BotsWithGuns(ply)
 	
@@ -127,16 +124,20 @@ end
 hook.Add("PlayerSpawn", "Bots with Guns", BotsWithGuns)
 
 
-if game.GetMap( ) ~= "gm_abstract" then return end
+if game.GetMap( ) ~= "gm_bestbuy" then return end
 
-local DropRate = 10
+local DropRate = 1
+
 
 local Locations = {}
-Locations[1] = Vector(1024, 0 , 0)
-Locations[2] = Vector(-1024, 0 , 0)
-Locations[3] = Vector(0, 1024 , 0)
-Locations[4] = Vector(0, -1024 , 0)
-Locations[5] = Vector(0, 0, 256)
+Locations[1] = Vector(460 , -197 , 82)
+Locations[2] = Vector(-582, 1080, 82)
+Locations[3] = Vector(-531, -117, 82)
+Locations[4] = Vector(1485, -625, 118)
+Locations[5] = Vector(756, 217, 82)
+Locations[6] = Vector(1048, -740, 82)
+Locations[7] = Vector(-196 , 137 , 152)
+Locations[8] = Vector(1328, 920 , 82)
 
 -- don't touch anything below
 local nextplacetime = DropRate
@@ -169,9 +170,16 @@ function ItemPlacer()
 
 	if nextplacetime <= CurTime() then
 	
+		local echoice
 		
-	
-		local echoice = Items[math.random(1,ItemsCount)]
+		if math.random(1,100) > 70 then
+			echoice = Items[math.random(1,ItemsCount)]
+		else
+			echoice = Weapons[math.random(1,WeaponsCount)]
+		end
+		
+		
+		
 		local vchoice = Locations[math.random(1,LocationsCount)]
 	
 		local sphere = ents.FindInSphere( vchoice, 100 )
